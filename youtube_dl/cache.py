@@ -100,17 +100,15 @@ class Cache(object):
         return default
 
     def remove(self):
-        if not self.enabled:
-            self._ydl.to_screen('Cache is disabled (Did you combine --no-cache-dir and --rm-cache-dir?)')
-            return
+    if not self.enabled:
+        self._ydl.to_screen('Cache is disabled (Did you combine --no-cache-dir and --rm-cache-dir?)')
+        return
 
-        cachedir = self._get_root_dir()
-        if not any((term in cachedir) for term in ('cache', 'tmp')):
-            raise Exception('Not removing directory %s - this does not look like a cache dir' % cachedir)
+    cachedir = self._get_root_dir()
+    if not any((term in cachedir) for term in ('cache', 'tmp')):
+        raise Exception('Not removing directory %s - this does not look like a cache dir' % cachedir)
 
-        self._ydl.to_screen(
-            'Removing cache dir %s .' % cachedir, skip_eol=True)
-        if os.path.exists(cachedir):
-            self._ydl.to_screen('.', skip_eol=True)
-            shutil.rmtree(cachedir)
-        self._ydl.to_screen('.')
+    if os.path.exists(cachedir):
+        self._ydl.to_screen('Removing cache directory: {}'.format(cachedir))
+        shutil.rmtree(cachedir)
+
